@@ -36,4 +36,8 @@ export class MoviesService {
     this.deleteOne(id);
     this.movies.push({ ...movie, ...data });
   }
+
+  findByYear(year: number): Movie[] {
+    return this.movies.filter(movie => movie.year === year);
+  }
 }

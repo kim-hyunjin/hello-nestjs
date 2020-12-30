@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, Res } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
@@ -12,13 +12,13 @@ export class MoviesController {
   
 
   @Get()
-  getAll(): Movie[] {
+  getAll(): Movie[] { // NestJs는 Express위에서 동작하므로 getAll(@Req() req, @Res() res) 와 같은 방식으로 Express의 req, res를 직접 사용할 수도 있다.
     return this.moviesService.getAll();
   }
 
   @Get('/search')
-  search(@Query('year') year: string) {
-    return `We are searching movie made after ${year}`;
+  search(@Query('year') year: number): Movie[] {
+    return this.moviesService.findByYear(year);
   }
 
   @Get('/:id')
